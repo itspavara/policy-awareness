@@ -1,7 +1,7 @@
 import { Alert, Button, Label, TextInput } from 'flowbite-react';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../img/cropped-safeeye-lgo-01-1-1.png'
+import logo from '../img/cropped-Paradox-lgo-01-1-1.png'
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -49,7 +49,7 @@ export default function SignUp() {
             <img className="logo h-12 max-w-2xl" src={logo}></img>
           </Link>
           <p className='text-sm mt-5'>
-            This is a Policy awareness platform in Safeeye. You can sign up with your company email and password
+            This is a Policy awareness platform in Paradox. You can sign up with your company email and password
             or with Google.
           </p>
         </div>

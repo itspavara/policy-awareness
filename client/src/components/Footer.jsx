@@ -1,7 +1,7 @@
 import { Footer } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { BsFacebook, BsInstagram, BsTwitter, BsGithub, BsDribbble } from 'react-icons/bs';
-import logo from '../img/cropped-safeeye-lgo-01-1-1.png'
+import logo from '../img/cropped-Paradox-lgo-01-1-1.png'
 
 export default function FooterCom() {
   return (
@@ -27,7 +27,7 @@ export default function FooterCom() {
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                  Safeeye
+                  Paradox
                 </Footer.Link>
               </Footer.LinkGroup>
             </div>
@@ -35,7 +35,7 @@ export default function FooterCom() {
               <Footer.Title title='Reach us' />
               <Footer.LinkGroup col>
                 <span>
-                  info@safeeye.com.au
+                  info@Paradox.com
                 </span>
                 <span>0114 330 577</span>
               </Footer.LinkGroup>
