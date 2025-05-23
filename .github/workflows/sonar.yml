@@ -1,32 +1,40 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
-name: Sonar scan
+name: SonarQube Scan
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
-
+    branches:
+      - main
 
 jobs:
-  build:
-    name: Build and analyze
+  sonar:
     runs-on: ubuntu-latest
-    
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-      - uses: SonarSource/sonarqube-scan-action@v5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-          
-      # If you wish to fail your job when the Quality Gate is red, uncomment the
-      # following lines. This would typically be used to fail a deployment.
-      # - uses: SonarSource/sonarqube-quality-gate-action@v1
-      #   timeout-minutes: 5
-      #   env:
-      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache SonarQube scanner
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: sonar-scanner-cli-7.1.0.4889-Linux-X64
+
+      - name: Install Sonar Scanner
+        run: |
+          mkdir -p ${{ runner.temp }}/sonarscanner
+          cd ${{ runner.temp }}/sonarscanner
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-7.1.0.4889-linux-x64.zip
+          unzip -q sonar-scanner-cli-7.1.0.4889-linux-x64.zip
+          echo "${{ runner.temp }}/sonarscanner/sonar-scanner-7.1.0.4889-linux-x64/bin" >> $GITHUB_PATH
+
+      - name: Run Sonar Scanner
+        run: |
+          sonar-scanner \
+          -Dsonar.projectKey=sample-sonar \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }} \
+          -Dsonar.login=${{ secrets.SONAR_TOKEN }}
